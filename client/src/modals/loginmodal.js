@@ -138,7 +138,7 @@ const Loginmodal = () => {
   };
   const testFn2 = () => {
     axios
-      .post("http://52.78.130.4:3500/sign/in", {
+      .post("http://localhost:3500/sign/in", {
         user_id: testId,
         password: testPw,
       })
@@ -152,7 +152,7 @@ const Loginmodal = () => {
         }
         return axios
           .get(
-            "http://52.78.130.4:3500/sign/auth",
+            "http://localhost:3500/sign/auth",
             {
               headers: {
                 authorization: `${access}`,
@@ -200,6 +200,10 @@ const Loginmodal = () => {
             </div>
             <Button onClick={testFn2}>로그인</Button>
           </Loginform>
+          <a href={KAKAO_AUTH_URL}>
+          <Kakaologbtn src={kakaologo} alt="" />
+          </a>
+
         </ModalView>
       </ModalBackdrop>
     </ModalContainer>
@@ -208,6 +212,3 @@ const Loginmodal = () => {
 
 export default Loginmodal;
 
-//<a href={KAKAO_AUTH_URL}>
-//<Kakaologbtn src={kakaologo} alt="" />
-//</a>

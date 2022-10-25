@@ -83,3 +83,5 @@ app.post("/uploads3", upload.single("file"), async (req, res) => {
   // console.log(result.Location);
   res.send(result.Location);
 });
+
+app.post("/kakao/profile", controllers.kakao)

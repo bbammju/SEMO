@@ -1,34 +1,32 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import Main from "./pages/main";
+const KAKAO_OAUTH_TOKEN_API_URL = "https://kauth.kakao.com/oauth/token"
+const KAKAO_GRANT_TYPE="authorization_code"
+const KAKAO_CLIENT_id="f40f3e44c0fb9080a6e6b65388a7ea07"
+const KAKAO_REDIRECT_URL="http://localhost:3000/oauth/callback/kakao"
 
 const KakaoRedirectHandler = () => {
   useEffect(() => {
     let params = new URL(document.location.toString()).searchParams;
     let code = params.get("code"); // 인가코드 받는 부분
-    let grant_type = "authorization_code";
-    let client_id = "1d3ae3d7f704bfdf575aca7d042711fc";
 
-    axios
-      .post(
-        `https://kauth.kakao.com/oauth/token?
-        grant_type=${grant_type}
-        &client_id=${client_id}
-        &redirect_uri=http://52.78.130.4:3500/
-        kakao&code=${code}`,
-        {
-          headers: {
-            "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res.data);
-        // res에 포함된 토큰 받아서 원하는 로직을 하면된다.
-      });
+    let token = axios.post(
+      `${KAKAO_OAUTH_TOKEN_API_URL}?grant_type=${KAKAO_GRANT_TYPE}&client_id=${KAKAO_CLIENT_id}&redirect_uri=${KAKAO_REDIRECT_URL}&code=${code}`
+      , {}).then(res => {
+        window.localStorage.setItem('kakao', res.data.access_token)
+      })
+    let info = axios.post('http://localhost:3500/kakao/profile', {
+      token: window.localStorage.getItem('kakao')
+    }).then(res => {
+      console.log(res)
+    }) 
   }, []);
 
-  return <Main />;
+  return <div>ddd</div>;
 };
 
 export default KakaoRedirectHandler;
+
+
+
